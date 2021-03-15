@@ -1,0 +1,145 @@
+;ID;CLUSTER
+0;Guadeloupe | 1968;0
+1;Martinique | 1968;0
+2;Guyane | 1968;0
+3;La Réunion | 1968;0
+4;Île-de-France | 1968;2
+5;Centre-Val de Loire | 1968;3
+6;Bourgogne-Franche-Comté | 1968;3
+7;Normandie | 1968;3
+8;Hauts-de-France | 1968;1
+9;Grand Est | 1968;1
+10;Pays de la Loire | 1968;3
+11;Bretagne | 1968;3
+12;Nouvelle-Aquitaine | 1968;1
+13;Occitanie | 1968;3
+14;Auvergne-Rhône-Alpes | 1968;1
+15;Provence-Alpes-Côte d'Azur | 1968;3
+16;Corse | 1968;0
+17;faute de frappe | 1968;3
+18;Guadeloupe | 1982;0
+19;Martinique | 1982;0
+20;Guyane | 1982;0
+21;La Réunion | 1982;0
+22;Île-de-France | 1982;2
+23;Centre-Val de Loire | 1982;3
+24;Bourgogne-Franche-Comté | 1982;3
+25;Normandie | 1982;3
+26;Hauts-de-France | 1982;1
+27;Grand Est | 1982;1
+28;Pays de la Loire | 1982;3
+29;Bretagne | 1982;3
+30;Nouvelle-Aquitaine | 1982;1
+31;Occitanie | 1982;3
+32;Auvergne-Rhône-Alpes | 1982;1
+33;Provence-Alpes-Côte d'Azur | 1982;3
+34;Corse | 1982;0
+35;faute de frappe | 1982;0
+36;Guadeloupe | 1975;0
+37;Martinique | 1975;0
+38;Guyane | 1975;0
+39;La Réunion | 1975;0
+40;Île-de-France | 1975;2
+41;Centre-Val de Loire | 1975;3
+42;Bourgogne-Franche-Comté | 1975;3
+43;Normandie | 1975;3
+44;Hauts-de-France | 1975;1
+45;Grand Est | 1975;1
+46;Pays de la Loire | 1975;3
+47;Bretagne | 1975;3
+48;Nouvelle-Aquitaine | 1975;1
+49;Occitanie | 1975;3
+50;Auvergne-Rhône-Alpes | 1975;1
+51;Provence-Alpes-Côte d'Azur | 1975;3
+52;Corse | 1975;0
+53;faute de frappe | 1975;0
+54;Guadeloupe | 2016;0
+55;Martinique | 2016;0
+56;Guyane | 2016;0
+57;La Réunion | 2016;0
+58;Île-de-France | 2016;2
+59;Centre-Val de Loire | 2016;3
+60;Bourgogne-Franche-Comté | 2016;3
+61;Normandie | 2016;3
+62;Hauts-de-France | 2016;1
+63;Grand Est | 2016;1
+64;Pays de la Loire | 2016;3
+65;Bretagne | 2016;3
+66;Nouvelle-Aquitaine | 2016;1
+67;Occitanie | 2016;1
+68;Auvergne-Rhône-Alpes | 2016;1
+69;Provence-Alpes-Côte d'Azur | 2016;1
+70;Corse | 2016;0
+71;faute de frappe | 2016;0
+72;Guadeloupe | 1990;0
+73;Martinique | 1990;0
+74;Guyane | 1990;0
+75;La Réunion | 1990;0
+76;Île-de-France | 1990;2
+77;Centre-Val de Loire | 1990;3
+78;Bourgogne-Franche-Comté | 1990;3
+79;Normandie | 1990;3
+80;Hauts-de-France | 1990;1
+81;Grand Est | 1990;1
+82;Pays de la Loire | 1990;3
+83;Bretagne | 1990;3
+84;Nouvelle-Aquitaine | 1990;1
+85;Occitanie | 1990;1
+86;Auvergne-Rhône-Alpes | 1990;1
+87;Provence-Alpes-Côte d'Azur | 1990;3
+88;Corse | 1990;0
+89;faute de frappe | 1990;0
+90;Guadeloupe | 1999;0
+91;Martinique | 1999;0
+92;Guyane | 1999;0
+93;La Réunion | 1999;0
+94;Île-de-France | 1999;2
+95;Centre-Val de Loire | 1999;3
+96;Bourgogne-Franche-Comté | 1999;3
+97;Normandie | 1999;3
+98;Hauts-de-France | 1999;1
+99;Grand Est | 1999;1
+100;Pays de la Loire | 1999;3
+101;Bretagne | 1999;3
+102;Nouvelle-Aquitaine | 1999;1
+103;Occitanie | 1999;1
+104;Auvergne-Rhône-Alpes | 1999;1
+105;Provence-Alpes-Côte d'Azur | 1999;1
+106;Corse | 1999;0
+107;faute de frappe | 1999;0
+108;Guadeloupe | 2006;0
+109;Martinique | 2006;0
+110;Guyane | 2006;0
+111;La Réunion | 2006;0
+112;Île-de-France | 2006;2
+113;Centre-Val de Loire | 2006;3
+114;Bourgogne-Franche-Comté | 2006;3
+115;Normandie | 2006;3
+116;Hauts-de-France | 2006;1
+117;Grand Est | 2006;1
+118;Pays de la Loire | 2006;3
+119;Bretagne | 2006;3
+120;Nouvelle-Aquitaine | 2006;1
+121;Occitanie | 2006;1
+122;Auvergne-Rhône-Alpes | 2006;1
+123;Provence-Alpes-Côte d'Azur | 2006;1
+124;Corse | 2006;0
+125;faute de frappe | 2006;1
+126;Guadeloupe | 2011;0
+127;Martinique | 2011;0
+128;Guyane | 2011;0
+129;La Réunion | 2011;0
+130;Île-de-France | 2011;2
+131;Centre-Val de Loire | 2011;3
+132;Bourgogne-Franche-Comté | 2011;3
+133;Normandie | 2011;3
+134;Hauts-de-France | 2011;1
+135;Grand Est | 2011;1
+136;Pays de la Loire | 2011;3
+137;Bretagne | 2011;3
+138;Nouvelle-Aquitaine | 2011;1
+139;Occitanie | 2011;1
+140;Auvergne-Rhône-Alpes | 2011;1
+141;Provence-Alpes-Côte d'Azur | 2011;1
+142;Corse | 2011;0
+143;faute de frappe | 2011;0
