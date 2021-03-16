@@ -265,8 +265,8 @@ top_cards = dbc.Row([
                         # html.Span(html.I("add_alert", className="material-icons"),
                         #           className="float-right rounded w-40 danger text-center "),
                         html.H5(
-                            "Year of census", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
-                        html.H4(id="year census"),
+                            "Total de ratings", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
+                        html.H4(children = str(len(ratings))),
                     ],
 
                     className="pt-2 pb-2 box "
@@ -549,36 +549,14 @@ dashboard = html.Div([
                             dbc.CardBody(
                                 [
 
-                                    dcc.Dropdown(
-                                        clearable=False,
-                                        # className="float-right",
-                                        id="name list",
-                                        style=dict(
-                                            width='50%',
-                                            verticalAlign="middle", 
-                                            # position = "fixed",
-                                            # top      = "0px",
-                                            # right    = "0px"
-                                        )
-                                    ),
 
-                                    # dcc.Slider(
-                                    #     # min=min(ans),
-                                    #     # max=max(ans),
-                                    #     step=None,
-                                    #     marks={
-                                    #         i: i for i in ans
-                                    #     },
-                                    #     value=ans[0],
-                                    #     id='dash slider',
-                                    #     included=False
-                                    # ),  
-
-                                    html.H5("Drill down analysis",
+                                    html.H5("Dashboard Conteo Usuarios",
                                             className="card-title"),
+                                    html.P("Minions ipsum tank yuuu! Jeje butt wiiiii para tú jeje po kass para tú aaaaaah. Ti aamoo! hahaha gelatooo para tú jiji uuuhhh po kass. Gelatooo wiiiii tulaliloo daa uuuhhh wiiiii bananaaaa ti aamoo! Jeje. Ti aamoo! baboiii daa la bodaaa belloo! Underweaaar. Poulet tikka masala hahaha aaaaaah bappleees."),
 
                                     dcc.Graph(
-                                        id='dash drill'),
+                                        id='dashboard_hist_user',
+                                        figure=px.histogram(ratings, x="rating_count")),
                                     dbc.RadioItems(
                                         options=[
                                             {"label": 1, "value": 1} 
@@ -628,6 +606,45 @@ dashboard = html.Div([
                                             className="card-title"),
 
                                     dcc.Graph(id='dash time'),
+                                ]
+                            ),
+                        ],
+                    )
+                ],
+                className="mt-1 mb-2 pl-3 pr-3", lg="6", sm="12", md="auto"
+            ),
+        ],
+    ),
+    dbc.Row(
+        [
+            dbc.Col(
+                [
+                    dbc.Card(
+                        [
+                            dbc.CardBody(
+                                [
+                                    html.H5("Regions Analysis",
+                                            className="card-title"),
+
+                                    dcc.Graph(),
+                                ]
+                            ),
+                        ],
+                    )
+                ],
+                className="mt-1 mb-2 pl-3 pr-3", lg="6", sm="12", md="auto"
+            ),
+
+            dbc.Col(
+                [
+                    dbc.Card(
+                        [
+                            dbc.CardBody(
+                                [
+                                    html.H5("Time Analysis",
+                                            className="card-title"),
+
+                                    dcc.Graph(),
                                 ]
                             ),
                         ],
