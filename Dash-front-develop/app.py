@@ -285,28 +285,33 @@ def place(n,user,password):
         figsong = px.bar(df, x='track-name', y='rating_count')
         df2=ratings_art[ratings_art['userid']==user][['artid','rating_count']].sort_values('rating_count',ascending=False).head(20)
         df2['artist-name']=df2['artid'].apply(nombre_artista)
-        labels = list(df2['artist-name'])
-        values = list(df2['rating_count'])
-        # Use `hole` to create a donut-like pie chart
-        figart = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])       
+        figart = px.pie(df2, values='rating_count', names='artist-name')   
         return [figart,figsong]
 
 #seleccionar la data de los gráficos
-##Modelo item-based
+##Modelo user-based
 @app.callback(
     [Output('exploration modelo', 'children'),
     Output('exploration real', 'children'),
     Output('exploration prediccion', 'children')],
-    [Input('exploration songgraph', 'clickData')], 
+    [Input('exploration songgraph', 'clickData'),
+     Input('exploration artgraph', 'clickData')], 
     [State('exploration user', "value")])
-def display_click_data(clickData,user):
-    display=clickData
-    song=display["points"][0]["x"]
-    real=display["points"][0]["y"]
-    est=round(prediccion_modelo(model_a_user,user,get_key(song,song_dict),int(real)),2)
-    return 'Modelo basado en usuario para: '+ song,str(real),str(est)
-
-
+def display_click_data(clickDataSong,clickDataArt,user):
+    if clickDataSong:
+        display=clickDataSong
+        song=display["points"][0]["x"]
+        real=display["points"][0]["y"]
+        est=round(prediccion_modelo(model_a_user,user,get_key(song,song_dict),int(real)),2)
+        clickDataArt=False
+        return 'Modelo basado en usuario para: '+ song,str(real),str(est)
+    elif clickDataArt:
+        display=clickDataArt
+        artist=display["points"][0]["label"]
+        real=display["points"][0]["value"]
+        est=round(prediccion_modelo(model_a_item,user,get_key(artist,art_dict),int(real)),2)
+        clickDataSong=False
+        return 'Modelo basado en artista para: '+ artist,str(real),str(est)
 
 
 if __name__ == "__main__":
