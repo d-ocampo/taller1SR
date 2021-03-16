@@ -1,5 +1,7 @@
 from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red, song_dict, art_dict ,ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
 from lay import  risk
+from script_inicial.RMSE import calcular_rmse 
+
 
 from app_ import app
 from spatial import spatial

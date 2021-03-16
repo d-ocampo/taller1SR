@@ -20,6 +20,15 @@ from sklearn.externals import joblib
 import pickle
 
 
+
+
+# function to return key for any value
+def get_key(val,my_dict):
+    for key, value in my_dict.items():
+         if val == value:
+             return key
+
+
 def nombre_cancion(traid):
     name=song_dict['traname'][traid]
     return name
@@ -29,7 +38,7 @@ def nombre_artista(artid):
     name=art_dict['artname'][artid]
     return name
 
-ruta='/home/davidsaw/uniandes-sistemas/Taller1/lastfm-dataset-1K/'
+# ruta='/home/davidsaw/uniandes-sistemas/Taller1/lastfm-dataset-1K/'
 
 ruta='/home/davidsaw/uniandes-sistemas/Taller1/app/app/final/Dash-front-develop/Data/'
 
@@ -74,8 +83,8 @@ with open(ruta+'song_dict.json', 'w') as fp:
     json.dump(song_dict, fp)
 
 #leer json
-with open(ruta+'song_dict.json', 'w') as fp:
-    json.load(song_dict, fp)
+with open(ruta+'song_dict.json') as f:
+  song_dict = json.load(f)
 
 
 #Exportar a json
