@@ -265,14 +265,14 @@ top_cards = dbc.Row([
                         # html.Span(html.I("add_alert", className="material-icons"),
                         #           className="float-right rounded w-40 danger text-center "),
                         html.H5(
-                            "Total de ratings", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
-                        html.H4(children = str(len(ratings))),
+                            "Total de usuarios", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
+                        html.H4(children = str('{:,}'.format(len(ratings['userid'].unique())))),
                     ],
 
                     className="pt-2 pb-2 box "
                 ),
             ],
-            # color="danger",
+            #color="warning",
             outline=True,
             #style={"width": "18rem"},
         ),
@@ -285,8 +285,8 @@ top_cards = dbc.Row([
                 dbc.CardBody(
                     [
                         html.H5(
-                            "France Population", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
-                        html.H4(id="total population"),
+                            "Cantidad de canciones", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
+                        html.H4(children = str('{:,}'.format(len(ratings['traid'].unique())))),
 
                      ],
 
@@ -306,8 +306,8 @@ top_cards = dbc.Row([
                 dbc.CardBody(
                     [
                         html.H5(
-                            "Place", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
-                        html.H4(id="place"),
+                            "Número de artistas", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
+                        html.H4(children = str('{:,}'.format(len(ratings_art['artid'].unique())))),
                     ],
 
                     className="pt-2 pb-2 box"
@@ -326,8 +326,8 @@ top_cards = dbc.Row([
                 dbc.CardBody(
                     [
                         html.H5(
-                            "Name", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
-                        html.H4(id="name of place"),
+                            "Número de reproducciones", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
+                        html.H4(children = str('{:,}'.format(ratings['rating_count'].sum()))),
                     ],
 
                     className="pt-2 pb-2 box"
@@ -494,52 +494,6 @@ home = html.Div([
 dashboard = html.Div([
 
     top_cards,
-       dbc.Row(
-        [
-            dbc.Col(
-                [
-                    dbc.Card(
-                        [
-                            dbc.CardBody(
-                                [
-
-                                    html.H3("Analysis Selection",
-                                            className="card-title",
-                                            id="seleccion analisis"),
-                                    dbc.RadioItems(
-                                        options=[
-                                            {"label": "Region", "value": 0},
-                                            {"label": "Department", "value": 1}
-                                        ],
-                                        value=0,
-                                        id="base select",
-                                        # switch=True,
-                                        # className="md",
-                                        style={'display': 'inline-block'}
-                                    ),
-                                    dbc.RadioItems(
-                                        options=[
-                                            {"label":1, "value": 1} 
-                                        ],
-                                        value=0,
-                                        id="option select",
-                                        # switch=True,
-                                        # className="md",
-                                        style={'display': 'inline-block'}
-                                    ),
-
-                                ]
-                            ),
-                        ],
-                    )
-                ],
-                className="mt-1 mb-2 pl-3 pr-3"
-            ),
-        ],
-    ),
-
-
-
     dbc.Row(
         [
             dbc.Col(
