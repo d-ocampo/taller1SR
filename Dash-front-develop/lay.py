@@ -55,7 +55,7 @@ risk = html.Div([
                                     [
                                         dbc.CardBody(
                                             [
-                                                html.H5("Artistas preferios",
+                                                html.H5("Artistas preferidos",
                                                         className="card-title"),
                                                 html.P("Muestra los artistas que más ha escuchado"),
                                                 dcc.Graph(id="exploration artgraph")
@@ -91,9 +91,16 @@ risk = html.Div([
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H5('Predicciones'),
-                            html.P(id='exploration selecciongraph')
-                            
+                            html.H4('Predicciones'),
+                            html.P('Modelo basado en', id='exploration modelo'),
+                            html.Div([
+                                html.H5('Afinidad Real del Usuario'),
+                                html.H2(id='exploration real')
+                            ], style={"display":"inline","float":"left"}),
+                            html.Div([
+                                html.H5('Estimacion del Modelo'),
+                                html.H2(id='exploration prediccion')
+                            ], style={"display":"inline","float":"right"}),
                         ])
                     ])
                 ], className="mt-1 mb-2 pl-3 pr-3")
