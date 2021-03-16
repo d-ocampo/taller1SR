@@ -36,7 +36,8 @@ import networkx as nx
 #Resources
 
 #Cargar la ruta
-ruta='/home/davidsaw/uniandes-sistemas/Taller1/lastfm-dataset-1K/'
+
+ruta=os.getcwd()+'/Data/'
 
 ####Funciones 
 
@@ -45,7 +46,12 @@ def nombre_cancion(traid):
     name=song_dict['traname'][traid]
     return name
 
+def nombre_artista(artid):
+    name=art_dict['artname'][artid]
+    return name
+
 #base de la prediccion de algún modelo
+
 def base_prediccion(user,prediccion,columnid,n):
     #Predicciones usuario user
     user_predictions_a = []
@@ -59,9 +65,13 @@ def base_prediccion(user,prediccion,columnid,n):
     #mostrar las primeras n predicciones
     show_pred=df_predictions_a.sort_values('estimation',ascending=False).head(n)
     
-    #mostrar el nombre de la canción
-    show_pred['track-name']=show_pred[columnid].apply(nombre_cancion)
+    #mostrar el nombre de la canción o artista
+    if columnid=='traid':
+        show_pred['track-name']=show_pred[columnid].apply(nombre_cancion)
+    else:
+        show_pred['track-name']=show_pred[columnid].apply(nombre_artista)
     return show_pred
+
 
 #graficar la red de recomendaciones
 def graficar_red(edges,user):
@@ -163,16 +173,18 @@ def graficar_red(edges,user):
 
 
 
-#diccionario de canciones
+#diccionario de canciones y artistas
 with open(ruta+'song_dict.json') as f:
   song_dict = json.load(f)
-
+with open(ruta+'art_dict.json') as f:
+  art_dict = json.load(f)
 
 # CSVS
 
 
 #Cargar base de rating
 ratings=pd.read_csv(ruta+'ratings.csv',sep=';')
+ratings_art=pd.read_csv(ruta+'ratings_art.csv',sep=';')
 
 
 ##Modelo a
@@ -182,7 +194,7 @@ with open(ruta+'test_set_a_user.data', 'rb') as filehandle:
     # read the data as binary data stream
     test_set_a_user = pickle.load(filehandle)
 #Abrir modelo
-model_a_user= joblib.load(ruta+'model_a_usuario.pkl' , mmap_mode ='r')
+model_a_user= joblib.load(ruta+'model_a_user.pkl' , mmap_mode ='r')
 #Predicciones del modelo
 test_predictions_a_user=model_a_user.test(test_set_a_user)
 #Listar los usuarios del test
@@ -191,6 +203,20 @@ for i in range(len(test_set_a_user)):
     if test_set_a_user[i][0] not in users_set_a_user:
         users_set_a_user.append(test_set_a_user[i][0])
 
+#item
+#Abrir lista test
+with open(ruta+'test_set_a_item.data', 'rb') as filehandle:
+    # read the data as binary data stream
+    test_set_a_item = pickle.load(filehandle)
+#Abrir modelo
+model_a_item= joblib.load(ruta+'model_a_item.pkl' , mmap_mode ='r')
+#Predicciones del modelo
+test_predictions_a_item=model_a_user.test(test_set_a_item)
+#Listar los usuarios del test
+item_set_a_item=[]
+for i in range(len(test_set_a_item)):
+    if test_set_a_item[i][0] not in item_set_a_item:
+        item_set_a_item.append(test_set_a_item[i][0])
 
 
 

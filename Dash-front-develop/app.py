@@ -1,4 +1,4 @@
-from layouts import home, dashboard, aboutus, nombre_cancion, base_prediccion,graficar_red, ratings, test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user 
+from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, base_prediccion,graficar_red, ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
 from lay import  risk
 
 from app_ import app
@@ -242,10 +242,12 @@ def time_graph(year, base,terreno,var,opcion):
     [Input("recomend seleccion", "value")],
 )
 def place(value):
+    print('---------------ACA------------------------')
     if value==1:
         return [{"label": i, "value": i} for i in users_set_a_user][0:20]
     else: 
-        return "Department"
+        print(item_set_a_item)
+        return [{"label": i, "value": i} for i in item_set_a_item][0:20]
 
 #graficar la red con los valores del drop
 #valor del drodown, la idea listar usuarios
@@ -258,6 +260,11 @@ def place(value):
 def place(value,seleccion,slider):
     if seleccion == 1:
         show=base_prediccion(value,test_predictions_a_user,'traid',int(slider))
+        edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
+        fig=graficar_red(edges,value)
+        return fig
+    else:
+        show=base_prediccion(value,test_predictions_a_item,'artid',int(slider))
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
         fig=graficar_red(edges,value)
         return fig    
@@ -276,9 +283,13 @@ def place(n,user,password):
         df=ratings[ratings['userid']==user][['traid','rating_count']].sort_values('rating_count',ascending=False).head(20)
         df['track-name']=df['traid'].apply(nombre_cancion)
         figsong = px.bar(df, x='track-name', y='rating_count')
-        return [figsong,figsong]
-
-
+        df2=ratings_art[ratings_art['userid']==user][['artid','rating_count']].sort_values('rating_count',ascending=False).head(20)
+        df2['artist-name']=df2['artid'].apply(nombre_artista)
+        labels = list(df2['artist-name'])
+        values = list(df2['rating_count'])
+        # Use `hole` to create a donut-like pie chart
+        figart = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])       
+        return [figart,figsong]
 
 
 if __name__ == "__main__":
