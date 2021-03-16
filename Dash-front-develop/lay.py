@@ -31,7 +31,7 @@ risk = html.Div([
                                 id="exploration user",
                                 placeholder="Ingrese su usario",
                                 style={'width' : '100%'}, 
-                                value="user_000021"
+                                value="user_000004"
                             ),
                             html.Br(),
                             dcc.Input(
@@ -39,7 +39,7 @@ risk = html.Div([
                                 type="password",
                                 placeholder="Ingrese contraseña",
                                 style={'width' : '100%'},
-                                value="user_000021"
+                                value="user_000004"
                             ),
                             html.Button('Login', id='exploration button', n_clicks=0),
                             
@@ -87,6 +87,17 @@ risk = html.Div([
                         ),
                     ],
                 ),
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            html.H5('Predicciones'),
+                            html.P(id='exploration selecciongraph')
+                            
+                        ])
+                    ])
+                ], className="mt-1 mb-2 pl-3 pr-3")
+            ]),
 
         ]),
         dcc.Tab(label='Nuevo Usuario'),

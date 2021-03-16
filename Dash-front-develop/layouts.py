@@ -53,6 +53,13 @@ def nombre_artista(artid):
     name=art_dict['artname'][artid]
     return name
 
+# function to return key for any value
+def get_key(val,my_dict):
+    for key, value in my_dict.items():
+         if val == value:
+             return key
+
+
 #base de la prediccion de algún modelo
 
 

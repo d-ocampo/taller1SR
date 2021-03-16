@@ -1,4 +1,4 @@
-from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, base_prediccion,graficar_red, ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
+from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, base_prediccion,graficar_red, ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
 from lay import  risk
 
 from app_ import app
@@ -9,6 +9,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import math
+import json
 
 ##Graph libraries
 import plotly.express as px
@@ -260,13 +261,11 @@ def place(value,seleccion,slider):
     if seleccion == 1:
         show=base_prediccion(value,test_predictions_a_user,'traid',int(slider))
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
-        print(edges)
         fig=graficar_red(edges,value)
         return fig
     else:
         show=base_prediccion(value,test_predictions_a_item,'userid',int(slider))
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
-        print(edges)
         fig=graficar_red(edges,value)
         return fig    
 
@@ -291,6 +290,18 @@ def place(n,user,password):
         # Use `hole` to create a donut-like pie chart
         figart = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])       
         return [figart,figsong]
+
+#seleccionar la data de los gráficos
+
+@app.callback(
+    Output('exploration selecciongraph', 'children'),
+    [Input('exploration songgraph', 'clickData')])
+def display_click_data(clickData):
+    display=clickData
+    show=display["points"][0]["x"]
+    return show
+
+
 
 
 if __name__ == "__main__":
