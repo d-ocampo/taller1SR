@@ -25,7 +25,8 @@ from surprise import accuracy
 
 #export libraries
 
-from sklearn.externals import joblib
+# from sklearn.externals import joblib
+import joblib
 import pickle
 
 #graph libraries
