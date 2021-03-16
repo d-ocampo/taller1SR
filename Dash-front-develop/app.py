@@ -1,4 +1,4 @@
-from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, base_prediccion,graficar_red, ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
+from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red, song_dict, art_dict ,ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
 from lay import  risk
 
 from app_ import app
@@ -292,14 +292,19 @@ def place(n,user,password):
         return [figart,figsong]
 
 #seleccionar la data de los gráficos
-
+##Modelo item-based
 @app.callback(
-    Output('exploration selecciongraph', 'children'),
-    [Input('exploration songgraph', 'clickData')])
-def display_click_data(clickData):
+    [Output('exploration modelo', 'children'),
+    Output('exploration real', 'children'),
+    Output('exploration prediccion', 'children')],
+    [Input('exploration songgraph', 'clickData')], 
+    [State('exploration user', "value")])
+def display_click_data(clickData,user):
     display=clickData
-    show=display["points"][0]["x"]
-    return show
+    song=display["points"][0]["x"]
+    real=display["points"][0]["y"]
+    est=round(prediccion_modelo(model_a_user,user,get_key(song,song_dict),int(real)),2)
+    return 'Modelo basado en usuario para: '+ song,str(real),str(est)
 
 
 
