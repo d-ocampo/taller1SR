@@ -387,6 +387,7 @@ home = html.Div([
             
             ),
 
+            html.P('''. License: The data contained in lastfm-dataset-1K.tar.gz is distributed with permission of Last.fm. The data is made available for non-commercial use. Those interested in using the data or web services in a commercial context should contact: partners [at] last [dot] fm. For more information see Last.fm terms of service''', style = { "font-color": "#666666", "font-size": "16px", "margin": "1rem auto 0", "padding": "0 12rem"}, className="text-muted"),
 
             html.Hr(style = {"width" : "100px", "border": "3px solid #999999", "background-color": "#999999", "margin": "3rem auto"}),
 
@@ -517,13 +518,13 @@ dashboard = html.Div([
                                 [
 
 
-                                    html.H5("Dashboard Conteo Usuarios",
+                                    html.H5("Cantidad de canciones por número de reproducciones",
                                             className="card-title"),
                                     html.P("Minions ipsum tank yuuu! Jeje butt wiiiii para tú jeje po kass para tú aaaaaah. Ti aamoo! hahaha gelatooo para tú jiji uuuhhh po kass. Gelatooo wiiiii tulaliloo daa uuuhhh wiiiii bananaaaa ti aamoo! Jeje. Ti aamoo! baboiii daa la bodaaa belloo! Underweaaar. Poulet tikka masala hahaha aaaaaah bappleees."),
 
                                     dcc.Graph(
                                         id='dashboard_hist_user',
-                                        figure=px.histogram(ratings, x="rating_count")),
+                                        figure=px.histogram(ratings.groupby('traid').agg({'rating_count':'sum'}), x="rating_count", labels = {'rating_count' : 'Número de reproducciones'})),
                                     dbc.RadioItems(
                                         options=[
                                             {"label": 1, "value": 1} 
@@ -551,10 +552,10 @@ dashboard = html.Div([
                         [
                             dbc.CardBody(
                                 [
-                                    html.H5("Regions Analysis",
+                                    html.H5("Cantidad de reproducciones por usuario",
                                             className="card-title"),
 
-                                    dcc.Graph(id='dash region'),
+                                    dcc.Graph(figure = px.histogram(ratings.groupby('userid').agg({'rating_count':'sum'}), x="rating_count", labels = {'rating_count' : 'Número de reproducciones'})),
                                 ]
                             ),
                         ],
@@ -569,10 +570,10 @@ dashboard = html.Div([
                         [
                             dbc.CardBody(
                                 [
-                                    html.H5("Time Analysis",
+                                    html.H5("Cantidad de reproducciones por artista",
                                             className="card-title"),
 
-                                    dcc.Graph(id='dash time'),
+                                    dcc.Graph(figure = px.histogram(ratings_art.groupby('artid').agg({'rating_count':'sum'}), x="rating_count", labels = {'rating_count' : 'Número de reproducciones'})),
                                 ]
                             ),
                         ],
