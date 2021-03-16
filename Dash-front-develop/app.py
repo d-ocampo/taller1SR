@@ -294,7 +294,8 @@ def place(n,user,password):
 
 if __name__ == "__main__":
     app.run_server(debug=False,
-                   host ='0.0.0.0')
+                #    host ='0.0.0.0'
+                   )
     
 
 # Images etc
