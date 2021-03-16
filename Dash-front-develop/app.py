@@ -242,12 +242,11 @@ def time_graph(year, base,terreno,var,opcion):
     [Input("recomend seleccion", "value")],
 )
 def place(value):
-    print('---------------ACA------------------------')
     if value==1:
         return [{"label": i, "value": i} for i in users_set_a_user][0:20]
     else: 
-        print(item_set_a_item)
-        return [{"label": i, "value": i} for i in item_set_a_item][0:20]
+
+        return [{"label": nombre_artista(i), "value": i} for i in item_set_a_item][0:20]
 
 #graficar la red con los valores del drop
 #valor del drodown, la idea listar usuarios
@@ -261,11 +260,13 @@ def place(value,seleccion,slider):
     if seleccion == 1:
         show=base_prediccion(value,test_predictions_a_user,'traid',int(slider))
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
+        print(edges)
         fig=graficar_red(edges,value)
         return fig
     else:
-        show=base_prediccion(value,test_predictions_a_item,'artid',int(slider))
+        show=base_prediccion(value,test_predictions_a_item,'userid',int(slider))
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
+        print(edges)
         fig=graficar_red(edges,value)
         return fig    
 

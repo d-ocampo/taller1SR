@@ -32,6 +32,8 @@ import pickle
 #graph libraries
 import plotly.graph_objects as go
 import networkx as nx
+import plotly
+import random
 
 
 #Resources
@@ -53,29 +55,56 @@ def nombre_artista(artid):
 
 #base de la prediccion de algún modelo
 
+
 def base_prediccion(user,prediccion,columnid,n):
     #Predicciones usuario user
     user_predictions_a = []
-    user_predictions_a = list(filter(lambda x: x[0]==user,prediccion))
+    #borrar
+    if columnid=='traid':
+        user_predictions_a = list(filter(lambda x: x[0]==user,prediccion))
+    else:
+        user_predictions_a = list(filter(lambda x: x[1]==user,prediccion))
     user_predictions_a.sort(key=lambda x : x.est, reverse=True)
     
     #Se convierte a dataframe
     labels = [columnid, 'estimation']
-    df_predictions_a = pd.DataFrame.from_records(list(map(lambda x: (x.iid, x.est) , user_predictions_a)), columns=labels)
-    
+    if columnid=='traid':
+        df_predictions_a = pd.DataFrame.from_records(list(map(lambda x: (x.iid, x.est) , user_predictions_a)), columns=labels)
+    else:
+        df_predictions_a = pd.DataFrame.from_records(list(map(lambda x: (x.uid, x.est) , user_predictions_a)), columns=labels)
     #mostrar las primeras n predicciones
     show_pred=df_predictions_a.sort_values('estimation',ascending=False).head(n)
     
-    #mostrar el nombre de la canción o artista
+    #mostrar el nombre de la canción
     if columnid=='traid':
         show_pred['track-name']=show_pred[columnid].apply(nombre_cancion)
     else:
-        show_pred['track-name']=show_pred[columnid].apply(nombre_artista)
+        show_pred['user-name']=show_pred[columnid]
     return show_pred
 
 
+
 #graficar la red de recomendaciones
+
+
 def graficar_red(edges,user):
+    if len(edges)<2:
+        words = ['No existe información suficiente']
+        colors = [plotly.colors.DEFAULT_PLOTLY_COLORS[random.randrange(1, 10)] for i in range(30)]
+        colors = colors[0]
+        weights =[40]
+        
+        data = go.Scatter(x=[random.random()],
+                         y=[random.random()],
+                         mode='text',
+                         text=words,
+                         marker={'opacity': 0.3},
+                         textfont={'size': weights,
+                                   'color': colors})
+        layout = go.Layout({'xaxis': {'showgrid': False, 'showticklabels': False, 'zeroline': False},
+                            'yaxis': {'showgrid': False, 'showticklabels': False, 'zeroline': False}})
+        fig = go.Figure(data=[data], layout=layout)
+        return fig
     H=nx.Graph()
     # Generar lista con los pesos de la red
     H.add_weighted_edges_from(edges)
@@ -148,7 +177,7 @@ def graficar_red(edges,user):
         else:
             #### OJO que toca modificarle el user
             node_adjacencies.append(adjacencies[1][user]['weight'])
-            node_text.append(adjacencies[0] +' | Gusto probable: ' +str(round(adjacencies[1][user]['weight'],2)))
+            node_text.append(adjacencies[0] +' | Afinidad: ' +str(round(adjacencies[1][user]['weight'],2)))
     
     node_trace.marker.color = node_adjacencies
     node_trace.text = node_text
@@ -156,7 +185,7 @@ def graficar_red(edges,user):
     
     #Generar el gráfico con los nodos, títulos, etc....
     fig = go.Figure(data=[edge_trace, node_trace],
-                 layout=go.Layout(
+                  layout=go.Layout(
                     titlefont_size=16,
                     showlegend=False,
                     hovermode='closest',
@@ -170,6 +199,8 @@ def graficar_red(edges,user):
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                     )
     return fig
+
+
 
 
 
@@ -216,8 +247,9 @@ test_predictions_a_item=model_a_user.test(test_set_a_item)
 #Listar los usuarios del test
 item_set_a_item=[]
 for i in range(len(test_set_a_item)):
-    if test_set_a_item[i][0] not in item_set_a_item:
-        item_set_a_item.append(test_set_a_item[i][0])
+    #ojo oca cambiar por el 1 que es el id del item
+    if test_set_a_item[i][1] not in item_set_a_item:
+        item_set_a_item.append(test_set_a_item[i][1])
 
 
 
