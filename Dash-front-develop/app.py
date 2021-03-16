@@ -298,14 +298,14 @@ def place(n,user,password):
      Input('exploration artgraph', 'clickData')], 
     [State('exploration user', "value")])
 def display_click_data(clickDataSong,clickDataArt,user):
-    if clickDataSong:
+    while clickDataSong:
         display=clickDataSong
         song=display["points"][0]["x"]
         real=display["points"][0]["y"]
         est=round(prediccion_modelo(model_a_user,user,get_key(song,song_dict),int(real)),2)
         clickDataArt=False
         return 'Modelo basado en usuario para: '+ song,str(real),str(est)
-    elif clickDataArt:
+    while clickDataArt:
         display=clickDataArt
         artist=display["points"][0]["label"]
         real=display["points"][0]["value"]
