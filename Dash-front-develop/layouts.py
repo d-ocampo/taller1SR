@@ -59,6 +59,12 @@ def get_key(val,my_dict):
          if val == value:
              return key
 
+#Estimación de calificación del usuario-item segun modelo
+def prediccion_modelo(model,user,item,real):
+    pred=model.predict(user, item, r_ui=real)
+    return pred[3]
+
+
 
 #base de la prediccion de algún modelo
 

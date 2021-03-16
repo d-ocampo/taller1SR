@@ -37,6 +37,15 @@ model_a= joblib.load('model_a_usuario.pkl' , mmap_mode ='r')
 test_predictions_a=model_a.test(test_set_a)
 
 
+#Estimación de calificación del usuario-item segun modelo
+def prediccion_modelo(model,user,item,real):
+    pred=model.predict(user, item, r_ui=real)
+    return pred[3]
+
+
+
+
+
 def base_prediccion(user,prediccion,columnid,n):
     #Predicciones usuario user
     user_predictions_a = []
