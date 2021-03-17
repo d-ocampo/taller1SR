@@ -4,6 +4,7 @@ import dash_html_components as html
 import base64
 from app_ import app
 from dash import callback_context as ctx
+from layouts import top_100, ratings, ratings_art, nombre_artista,nombre_cancion
 
 
 from dash.dependencies import Input, Output, State
@@ -14,6 +15,9 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import json
+
+
+nuevo_usuario=ratings['userid'].max().split("_")
 
 # Risk Model --------------------------------------------------------------------------
 
@@ -133,14 +137,14 @@ risk = html.Div([
                                     id="exploration newuser",
                                     placeholder="Ingrese su nuevo usario",
                                     style={'width' : '100%'}, 
-                                    value="user_000004"
+                                    value=("user_" + str(1000000 + int(nuevo_usuario[1])+1)).replace("_1", "_")
                                 ),
                                 html.Br(),
                                 dcc.Input(
                                     id="exploration newpass",
                                     placeholder="Ingrese contraseña",
                                     style={'width' : '100%'},
-                                    value="user_000004"
+                                    value=("user_" + str(1000000 + int(nuevo_usuario[1])+1)).replace("_1", "_")
                                 ),
                                 
                             ])
@@ -151,7 +155,10 @@ risk = html.Div([
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                html.H5('Seleccione las canciones de su preferencia'),                                
+                                html.H5('Seleccione las canciones de su preferencia'),
+                                dcc.Checklist(id='exploration newsong',
+                                              options=[{'label':nombre_cancion(i) , 'value':i} for i in list(top_100('cancion')['traid'].head(30))]
+                                )                                  
                             ])
                         ])
                     ], className="mt-1 mb-2 pl-3 pr-3")
@@ -160,7 +167,11 @@ risk = html.Div([
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                html.H5('Seleccione los artistas de su preferencia'),                                
+                                html.H5('Seleccione los artistas de su preferencia'),
+                                dcc.Checklist(id='exploration newartist',
+                                              options=[{'label':nombre_artista(i) , 'value':i} for i in list(top_100('artista')['artid'].head(30))]
+                                )  
+                                                                
                             ])
                         ])
                     ], className="mt-1 mb-2 pl-3 pr-3")
@@ -172,6 +183,15 @@ risk = html.Div([
                                 html.Button('Crear nuevo usuario',
                                             id='exploration newbutton',
                                             style={'width' : '100%'},),                                
+                            ])
+                        ])
+                    ], className="mt-1 mb-2 pl-3 pr-3")
+                ]),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(id='exploration mensaje')                              
                             ])
                         ])
                     ], className="mt-1 mb-2 pl-3 pr-3")

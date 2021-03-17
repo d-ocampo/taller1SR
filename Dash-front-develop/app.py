@@ -1,4 +1,4 @@
-from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red, song_dict, art_dict ,ratings, ratings_art, rmse ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
+from layouts import ruta, home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red,crear_nueva, song_dict, art_dict ,ratings, ratings_art, rmse ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item, model_cos_user, test_set_cos_user, model_cos_item, test_set_cos_item, model_person_user,test_set_person_user, model_person_item, test_set_person_item 
 from lay import  risk
 from script_inicial.RMSE import calcular_rmse 
 
@@ -297,23 +297,69 @@ def place(n,user,password):
     Output('exploration real', 'children'),
     Output('exploration prediccion', 'children')],
     [Input('exploration songgraph', 'clickData'),
-     Input('exploration artgraph', 'clickData')], 
+     Input('exploration artgraph', 'clickData'),
+     Input('exploration model', 'value')], 
     [State('exploration user', "value")])
-def display_click_data(clickDataSong,clickDataArt,user):
+def display_click_data(clickDataSong,clickDataArt,model,user):
     while clickDataSong:
         display=clickDataSong
         song=display["points"][0]["x"]
-        real=display["points"][0]["y"]
-        est=round(prediccion_modelo(model_a_user,user,get_key(song,song_dict),int(real)),2)
+        real=display["points"][0]["y"]    
+        if model=='cosine':
+            modelo=model_cos_user
+        else:
+            modelo=model_person_user    
+        est=round(prediccion_modelo(modelo,user,get_key(song,song_dict),int(real)),2)
         clickDataArt=False
         return 'Modelo basado en usuario para: '+ song,str(real),str(est)
     while clickDataArt:
         display=clickDataArt
         artist=display["points"][0]["label"]
         real=display["points"][0]["value"]
-        est=round(prediccion_modelo(model_a_item,user,get_key(artist,art_dict),int(real)),2)
+        if model=='cosine':
+            modelo=model_cos_item
+        else:
+            modelo=model_person_item
+        est=round(prediccion_modelo(modelo,user,get_key(artist,art_dict),int(real)),2)
         clickDataSong=False
         return 'Modelo basado en artista para: '+ artist,str(real),str(est)
+
+##Modelo user-based
+@app.callback(
+    Output('exploration mensaje', 'children'),
+    [Input('exploration newbutton', 'n_clicks')], 
+    [State('exploration newuser', "value"),
+     State('exploration newsong', "value"),
+     State('exploration newartist', "value")])
+def display_click_data(click,user,songs,artist):
+    if click>1:
+        if artist is None:
+            return 'Por favor seleccione al menos un artista'
+        elif songs is None:
+            return 'Por favor seleccione al menos una canción'
+        else:
+            #canciones
+            canciones=songs
+            usuario=[user]*len(canciones)
+            cals=[1]*len(canciones)
+            df = pd.DataFrame([usuario,canciones,cals]).transpose()
+            df.columns=['userid','traid','rating_count']
+
+            artistas=artist
+            usuario_art=[user]*len(artistas)
+            cals_art=[1]*len(artistas)
+            df2 = pd.DataFrame([usuario_art,artistas,cals_art]).transpose()
+            df2.columns=['userid','artid','rating_count']
+            
+            crear_nueva(df,df2,ratings,ratings_art)
+
+            return 'Usuario creado con éxito'
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

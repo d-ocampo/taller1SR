@@ -228,11 +228,38 @@ with open(ruta+'art_dict.json') as f:
 
 
 #Cargar base de rating
-ratings=pd.read_csv(ruta+'ratings.csv',sep=';')
-ratings_art=pd.read_csv(ruta+'ratings_art.csv',sep=';')
+print('---------------------------')
+print('CARGA INICIAL')
+ratings=pd.read_csv(ruta+'ratings.csv',sep=';', index_col=0)
+print(ratings.userid.value_counts())
+ratings_art=pd.read_csv(ruta+'ratings_art.csv',sep=';', index_col=0)
+print(ratings_art.userid.value_counts())
 #cargar rmsr
 rmse=pd.read_csv(ruta+'rmse.csv',sep=';')
 
+
+rep_artista = ratings_art.groupby('artid').agg({'rating_count':'sum'}).reset_index()
+rep_cancion = ratings.groupby('traid').agg({'rating_count':'sum'}).reset_index()
+
+def top_100(tipo):
+    if tipo=='cancion':
+        top_100 = rep_cancion.sort_values('rating_count', ascending=False).head(100)
+    else:
+        top_100 = rep_artista.sort_values('rating_count', ascending=False).head(100)
+    top_100['aleatorio'] = np.random.randint(0,100, 100)
+    top_100 = top_100.sort_values('aleatorio')
+    top_100['aleatorio'] = list(range(1, 11))*10
+    return top_100
+
+def crear_nueva(df,df2,base,base2):
+    ratings=base.append(df)
+    ratings_art=base2.append(df2)
+    ratings.to_csv(ruta+'ratings.csv',sep=';')
+    ratings_art.to_csv(ruta+'ratings_art.csv',sep=';')
+    print(ratings.userid.value_counts())
+    print('Bases actualizadas---------------------')
+
+######################
 ##Modelo a
 #usuario
 #Abrir lista test
@@ -265,6 +292,43 @@ for i in range(len(test_set_a_item)):
     if test_set_a_item[i][1] not in item_set_a_item:
         item_set_a_item.append(test_set_a_item[i][1])
 
+
+#############################
+##Modelos exploracion
+######### coseno
+#usuario 
+#Abrir lista test
+with open(ruta+'test_set_cos_user.data', 'rb') as filehandle:
+    # read the data as binary data stream
+    test_set_cos_user = pickle.load(filehandle)
+#Abrir modelo
+model_cos_user= joblib.load(ruta+'model_cos_user.pkl' , mmap_mode ='r')
+
+#item
+#Abrir lista test
+with open(ruta+'test_set_cos_item.data', 'rb') as filehandle:
+    # read the data as binary data stream
+    test_set_cos_item = pickle.load(filehandle)
+#Abrir modelo
+model_cos_item= joblib.load(ruta+'model_cos_item.pkl' , mmap_mode ='r')
+
+
+######### pearson
+#usuario 
+#Abrir lista test
+with open(ruta+'test_set_person_user.data', 'rb') as filehandle:
+    # read the data as binary data stream
+    test_set_person_user = pickle.load(filehandle)
+#Abrir modelo
+model_person_user= joblib.load(ruta+'model_person_user.pkl' , mmap_mode ='r')
+
+#item
+#Abrir lista test
+with open(ruta+'test_set_person_item.data', 'rb') as filehandle:
+    # read the data as binary data stream
+    test_set_person_item = pickle.load(filehandle)
+#Abrir modelo
+model_person_item= joblib.load(ruta+'model_person_item.pkl' , mmap_mode ='r')
 
 
 
