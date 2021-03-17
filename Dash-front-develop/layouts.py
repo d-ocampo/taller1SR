@@ -278,7 +278,7 @@ top_cards = dbc.Row([
                         # html.Span(html.I("add_alert", className="material-icons"),
                         #           className="float-right rounded w-40 danger text-center "),
                         html.H5(
-                            "Total de usuarios", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
+                            "Cantidad total de usuarios", className="card-title text-muted font-weight-normal mt-2 mb-3 mr-5"),
                         html.H4(children = str('{:,}'.format(len(ratings['userid'].unique())))),
                     ],
 
@@ -379,15 +379,15 @@ home = html.Div([
                    style={"padding": "1rem", "transform" : "rotate(90deg)", "font-size": "2rem", "color": "#999999"}, ),
 # Descripción del problema
             html.P('''
-                    This dataset contains <user, timestamp, artist, song> tuples collected from Last.fm API, 
-                    using the user.getRecentTracks() method.
-                    This dataset represents the whole listening habits (till May, 5th 2009) for nearly 1,000 users.
+                    El dataset ocupado en la presente herramienta se compone de tuplas <user, timestamp, artist, song> previamente tomadas de la API de Last.fm, 
+                    usando el método .getRecentTracks().
+                    El dataset contiene datos de hábitos de reproducción (hasta May, 5th 2009) para algo menos de mil usuarios.
                    ''',
             style = { "font-color": "#666666", "font-size": "16px", "margin": "1rem auto 0", "padding": "0 12rem"}, className="text-muted"
             
             ),
 
-            html.P('''. License: The data contained in lastfm-dataset-1K.tar.gz is distributed with permission of Last.fm. The data is made available for non-commercial use. Those interested in using the data or web services in a commercial context should contact: partners [at] last [dot] fm. For more information see Last.fm terms of service''', style = { "font-color": "#666666", "font-size": "16px", "margin": "1rem auto 0", "padding": "0 12rem"}, className="text-muted"),
+            html.P('''Licencia: Los datos contenidos en lastfm-dataset-1K.tar.gz son distribuidos y manipulados con permiso de Last.FM. Los datos se encuentran disponibles para su no comercial. Para más información, se sugiere revisar los términos de servicio de Last.fm.''', style = { "font-color": "#666666", "font-size": "16px", "margin": "1rem auto 0", "padding": "0 12rem"}, className="text-muted"),
 
             html.Hr(style = {"width" : "100px", "border": "3px solid #999999", "background-color": "#999999", "margin": "3rem auto"}),
 
@@ -408,7 +408,7 @@ home = html.Div([
                             [
                                 html.H3("Dashboard", style = {"color": "#66666"}),
                                 html.P(
-                                    '''Acá se pueden obtener las estadísticas básicas de los ratings
+                                    '''Un espacio para obtener estadísticas básicas de usuarios, artistas y reproducciones con los datos de Last.FM.
                                     
                                     ''',
                                     className="card-text", style = {"font-size": "15px"},
@@ -431,7 +431,7 @@ home = html.Div([
                                 html.H3("Recomendación", style = {"color": "#66666"}),
 
                                 html.P(
-                                    '''Acá puede encontrar el sistema de recomendación basado en perfiles de usuario y canciones con la primera mitad de los datos de ratings.''',
+                                    '''Acá puedes encontrar el sistema de recomendación basado en perfiles de usuario y canciones con la primera mitad de los datos de Last.FM''',
                                     className="card-text", style = {"font-size": "15px"},
                                 ),
                                 dbc.Button("Sistema de recomendación",
@@ -453,7 +453,7 @@ home = html.Div([
 
                                 html.P(
                                     '''
-                                    Acá puede encontrar las predicciones y sistema para usuarios nuevos y antiguos
+                                    Finalmente, un apartado con las predicciones y el sistema diseñado para usuarios nuevos y antiguos.
                                     ''',
                                     className="card-text", style = {"font-size": "15px"},
                                 ),
