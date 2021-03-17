@@ -1,4 +1,4 @@
-from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red, song_dict, art_dict ,ratings, ratings_art ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
+from layouts import home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red, song_dict, art_dict ,ratings, ratings_art, rmse ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item 
 from lay import  risk
 from script_inicial.RMSE import calcular_rmse 
 
@@ -206,18 +206,18 @@ def update_topTitle(pathname):
 ##############################################
 
 
-###### Dash Board ################
+###### DashBoard ################
 
 #Cambiar el valor de las tarjetas - lugar 
 @app.callback(
-    Output("place", "children"),
-    [Input("base select", "value")],
+    Output("dashboard rmse", "figure"),
+    [Input("dashboard base", "value"),
+     Input("dashboard model", "value"),
+     Input("dashboard useritem", "value")],
 )
-def place(value):
-    if value==0:
-        return "Region"
-    else: 
-        return "Department"
+def place(base,model,useritem):
+    fig=px.line(rmse[(rmse['base']==base) & (rmse['modelo']==model) & (rmse['user']==useritem)],x="k",y="rmse")
+    return fig
 
 
 @app.callback(

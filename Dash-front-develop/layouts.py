@@ -230,7 +230,8 @@ with open(ruta+'art_dict.json') as f:
 #Cargar base de rating
 ratings=pd.read_csv(ruta+'ratings.csv',sep=';')
 ratings_art=pd.read_csv(ruta+'ratings_art.csv',sep=';')
-
+#cargar rmsr
+rmse=pd.read_csv(ruta+'rmse.csv',sep=';')
 
 ##Modelo a
 #usuario
@@ -525,15 +526,6 @@ dashboard = html.Div([
                                     dcc.Graph(
                                         id='dashboard_hist_user',
                                         figure=px.histogram(ratings.groupby('traid').agg({'rating_count':'sum'}), x="rating_count", labels = {'rating_count' : 'Número de reproducciones'})),
-                                    dbc.RadioItems(
-                                        options=[
-                                            {"label": 1, "value": 1} 
-                                        ],
-                                        value="SEXE",
-                                        id="variable",
-                                        # switch=True,
-                                    ),
-
                                 ]
                             ),
                         ],
@@ -583,6 +575,7 @@ dashboard = html.Div([
             ),
         ],
     ),
+
     dbc.Row(
         [
             dbc.Col(
@@ -591,34 +584,42 @@ dashboard = html.Div([
                         [
                             dbc.CardBody(
                                 [
-                                    html.H5("Regions Analysis",
-                                            className="card-title"),
 
-                                    dcc.Graph(),
+
+                                    html.H5("RMSE",
+                                            className="card-title"),
+                                    html.P("Con la selección siguiente se puede revisar el rmse de los modelos que se consideraron para este estudio"),
+                                    dcc.RadioItems(
+                                        options=[{'label': 'Canciones','value':'ratings'},
+                                                 {'label': 'Artistas','value':'ratings_art'}],
+                                        id='dashboard base',
+                                        value='ratings'
+                                        
+                                    ),
+                                    dcc.RadioItems(
+                                        options=[{'label': 'Coseno','value':'cosine'},
+                                                 {'label': 'Pearson','value':'pearson'}],
+                                        id='dashboard model',
+                                        value='cosine'
+                                        
+                                    ),
+                                    dcc.RadioItems(
+                                        options=[{'label': 'Usuario','value':True},
+                                                 {'label': 'Item','value':False}],
+                                        id='dashboard useritem',
+                                        value=True
+                                        
+                                    ),
+                                    dcc.Graph(
+                                        id='dashboard rmse',
+                                        ),
+
                                 ]
                             ),
                         ],
                     )
                 ],
-                className="mt-1 mb-2 pl-3 pr-3", lg="6", sm="12", md="auto"
-            ),
-
-            dbc.Col(
-                [
-                    dbc.Card(
-                        [
-                            dbc.CardBody(
-                                [
-                                    html.H5("Time Analysis",
-                                            className="card-title"),
-
-                                    dcc.Graph(),
-                                ]
-                            ),
-                        ],
-                    )
-                ],
-                className="mt-1 mb-2 pl-3 pr-3", lg="6", sm="12", md="auto"
+                className="mt-1 mb-2 pl-3 pr-3"
             ),
         ],
     ),
