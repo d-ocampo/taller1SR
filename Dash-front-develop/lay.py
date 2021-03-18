@@ -55,7 +55,7 @@ risk = html.Div([
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H5('Elija el modelo se su preferencia'),
+                            html.H5('Elija el modelo de su preferencia'),
                             dcc.RadioItems(
                                 options=[{'label': 'Coseno','value':'cosine'},
                                             {'label': 'Pearson','value':'pearson'}],
