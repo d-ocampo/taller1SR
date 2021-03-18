@@ -231,8 +231,6 @@ def place(base,model,useritem):
      State("dashboard kmodelo","value")]
 )
 def time_graph(click,test, modelo,userbased,recorte,k): 
-    print(modelo)
-    print(userbased)
     if (userbased==True) & (modelo=='cosine'):
         base=ratings
         col='traid'
@@ -249,7 +247,8 @@ def time_graph(click,test, modelo,userbased,recorte,k):
         base=ratings_art
         col='artid'
         nombre='person_item'     
-    crear_modelo(test, modelo, userbased, k, nombre, base,col,recorte)
+    if click:
+        crear_modelo(test, modelo, userbased, k, nombre, base,col,recorte)
     return 'Modelo con test: '+ str(test)+' Modelo elegido: ' +str(modelo)+',¡Creado con éxito!'
 
 ########### Reconmendation #################
@@ -261,10 +260,10 @@ def time_graph(click,test, modelo,userbased,recorte,k):
 )
 def place(value):
     if value==1:
-        return [{"label": i, "value": i} for i in users_set_a_user][0:20]
+        return [{"label": i, "value": i} for i in users_set_a_user][0:100]
     else: 
 
-        return [{"label": nombre_artista(i), "value": i} for i in item_set_a_item][0:20]
+        return [{"label": nombre_artista(i), "value": i} for i in item_set_a_item][0:100]
 
 #graficar la red con los valores del drop
 #valor del drodown, la idea listar usuarios
@@ -383,7 +382,9 @@ def display_click_data(click,user,songs,artist):
 if __name__ == "__main__":
     app.run_server(debug=False,
                    host ='0.0.0.0',
-                   port=8000
+                   port=8000,
+                   threaded=True,
+                   dev_tools_hot_reload=True
                    )
     
 

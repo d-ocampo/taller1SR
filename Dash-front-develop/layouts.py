@@ -253,12 +253,9 @@ with open(ruta+'art_dict.json') as f:
 
 
 #Cargar base de rating
-print('---------------------------')
-print('CARGA INICIAL')
 ratings=pd.read_csv(ruta+'ratings.csv',sep=';', index_col=0)
-print(ratings.userid.value_counts())
 ratings_art=pd.read_csv(ruta+'ratings_art.csv',sep=';', index_col=0)
-print(ratings_art.userid.value_counts())
+
 #cargar rmsr
 rmse=pd.read_csv(ruta+'rmse.csv',sep=';')
 
@@ -610,7 +607,7 @@ dashboard = html.Div([
 
                                     html.H5("Cantidad de canciones por número de reproducciones",
                                             className="card-title"),
-                                    html.P("Minions ipsum tank yuuu! Jeje butt wiiiii para tú jeje po kass para tú aaaaaah. Ti aamoo! hahaha gelatooo para tú jiji uuuhhh po kass. Gelatooo wiiiii tulaliloo daa uuuhhh wiiiii bananaaaa ti aamoo! Jeje. Ti aamoo! baboiii daa la bodaaa belloo! Underweaaar. Poulet tikka masala hahaha aaaaaah bappleees."),
+                                    html.P("En los siguientes histogramas se puede analizar la base de datos que se obtuvo de LastFM para tomar las decisiones correctas sobre los modelos a correr así como también entender la data que se está trabajando en la base total"),
 
                                     dcc.Graph(
                                         id='dashboard_hist_user',
@@ -724,7 +721,11 @@ dashboard = html.Div([
 
                                     html.H5("Panel de control",
                                             className="card-title"),
-                                    html.P("En esta parte podrás re-calibrar los modelos dadas tus preferencias para mejorar el ajuste del modelo"),
+                                    html.P('''En esta parte podrás re-calibrar los modelos dadas tus preferencias 
+                                           para mejorar el ajuste del modelo, así el primer slider tiene el tamaño
+                                           del test, después puedes elegir el método de similitud, también si el modelo
+                                           está basado en USUARIO o ITEM, elegir desde qué número de reproducciones
+                                           vas a crear el modelo y por último la cantiad de vecinos '''),
                                     dcc.Slider(
                                         min=0.1,
                                         max=0.9,
