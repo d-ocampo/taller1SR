@@ -35,7 +35,7 @@ risk = html.Div([
                                 id="exploration user",
                                 placeholder="Ingrese su usario",
                                 style={'width' : '100%'}, 
-                                value="user_000004"
+                                # value="user_000004"
                             ),
                             html.Br(),
                             dcc.Input(
@@ -43,7 +43,7 @@ risk = html.Div([
                                 type="password",
                                 placeholder="Ingrese contraseña",
                                 style={'width' : '100%'},
-                                value="user_000004"
+                                # value="user_000004"
                             ),
                             html.Button('Login', id='exploration button', n_clicks=0),
                             
