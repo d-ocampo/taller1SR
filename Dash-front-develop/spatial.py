@@ -90,6 +90,27 @@ spatial = html.Div([
             ),
         ],
     ),
+    dbc.Row(
+        [
+            dbc.Col(
+                [
+                    dbc.Card(
+                        [
+                            dbc.CardBody(
+                                [
+
+                                    html.H3("Listado de recomendaciones",
+                                            className="card-title"),
+                                    html.Ul(id='recomend lista')
+                                ]
+                            ),
+                        ],
+                    )
+                ],
+                className="mt-1 mb-2 pl-3 pr-3"
+            ),
+        ],
+    ),
 
 ],
     className='container',

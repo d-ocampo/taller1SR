@@ -64,7 +64,32 @@ def prediccion_modelo(model,user,item,real):
     pred=model.predict(user, item, r_ui=real)
     return pred[3]
 
+#Crear modelo de predicción
 
+
+def crear_modelo(test,tipo_modelo,useritem,k,nombre,ratings,columnid,trim):
+    ratings=ratings[ratings['rating_count']>=trim]
+    reader = Reader( rating_scale = ( 1, ratings['rating_count'].max() ) )
+    #Se crea el dataset a partir del dataframe
+    surprise_dataset = Dataset.load_from_df( ratings[ [ 'userid', columnid, 'rating_count' ] ], reader )
+    
+    #Crear train y test para el primer punto
+    train_set, test_set=  train_test_split(surprise_dataset, test_size=test)
+    
+    #exportar la lista de set
+    with open(ruta+'test_set_'+nombre+'.data', 'wb') as filehandle:
+        # store the data as binary data stream
+        pickle.dump(test_set, filehandle)
+    # se crea un modelo knnbasic item-item con similitud coseno 
+    sim_options = {'name': tipo_modelo,
+                   'user_based': useritem  # calcule similitud item-item
+                   }
+    model = KNNBasic(k=k, min_k=2, sim_options=sim_options)
+    #Se le pasa la matriz de utilidad al algoritmo 
+    model.fit(trainset=train_set)    
+    #exportar el modelo
+    joblib.dump(model,ruta+'model_'+nombre+'.pkl')
+    print('OK')
 
 #base de la prediccion de algún modelo
 
@@ -678,6 +703,80 @@ dashboard = html.Div([
                                         id='dashboard rmse',
                                         ),
 
+                                ]
+                            ),
+                        ],
+                    )
+                ],
+                className="mt-1 mb-2 pl-3 pr-3"
+            ),
+        ],
+    ),
+    dbc.Row(
+        [
+            dbc.Col(
+                [
+                    dbc.Card(
+                        [
+                            dbc.CardBody(
+                                [
+
+
+                                    html.H5("Panel de control",
+                                            className="card-title"),
+                                    html.P("En esta parte podrás re-calibrar los modelos dadas tus preferencias para mejorar el ajuste del modelo"),
+                                    dcc.Slider(
+                                        min=0.1,
+                                        max=0.9,
+                                        step=0.1,
+                                        value=0.5,
+                                        marks={
+                                                0.1: '10%',
+                                                0.5: '50%',
+                                                0.9: '90%'
+                                            },
+                                        id="dashboard testmodelo"
+                                    ),
+                                    
+                                    dcc.RadioItems(
+                                        options=[{'label': 'Coseno','value':'cosine'},
+                                                 {'label': 'Pearson','value':'pearson'}],
+                                        id='dashboard modelmodelo',
+                                        value='cosine'
+                                        
+                                    ),
+                                    dcc.RadioItems(
+                                        options=[{'label': 'Usuario','value':True},
+                                                 {'label': 'Item','value':False}],
+                                        id='dashboard useritemmodelo',
+                                        value=True
+                                    ),
+                                    dcc.Slider(
+                                        min=20,
+                                        max=100,
+                                        step=5,
+                                        value=30,
+                                            marks={
+                                                30: 'Desde 30',
+                                                80: 'Desde 80',
+                                            },
+                                        id="dashboard trimmodelo"
+                                    ),
+                                    dcc.Slider(
+                                        min=5,
+                                        max=80,
+                                        step=5,
+                                        value=20,
+                                            marks={
+                                                5: '5 Vecinos',
+                                                30: '30 Vecinos',
+                                                60: '60 Vecinos',
+                                            },
+                                        id="dashboard kmodelo"
+                                    ),
+                                        
+                                    html.Button('Correr el modelo',id="dashboard corrermodelo", style={'width' : '100%'}),
+                                    html.P(id='dashboard respuesta')
                                 ]
                             ),
                         ],

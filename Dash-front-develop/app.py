@@ -1,4 +1,4 @@
-from layouts import ruta, home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo, base_prediccion,graficar_red,crear_nueva, song_dict, art_dict ,ratings, ratings_art, rmse ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item, model_cos_user, test_set_cos_user, model_cos_item, test_set_cos_item, model_person_user,test_set_person_user, model_person_item, test_set_person_item 
+from layouts import ruta, home, dashboard, aboutus, nombre_cancion, nombre_artista, get_key, prediccion_modelo,crear_modelo ,base_prediccion,graficar_red,crear_nueva, song_dict, art_dict ,ratings, ratings_art, rmse ,test_set_a_user,model_a_user,test_predictions_a_user,users_set_a_user, test_set_a_item,model_a_item,test_predictions_a_item,item_set_a_item, model_cos_user, test_set_cos_user, model_cos_item, test_set_cos_item, model_person_user,test_set_person_user, model_person_item, test_set_person_item 
 from lay import  risk
 from script_inicial.RMSE import calcular_rmse 
 
@@ -208,7 +208,7 @@ def update_topTitle(pathname):
 
 ###### DashBoard ################
 
-#Cambiar el valor de las tarjetas - lugar 
+#Cambiar el valor de las tarjetas rmse
 @app.callback(
     Output("dashboard rmse", "figure"),
     [Input("dashboard base", "value"),
@@ -219,23 +219,38 @@ def place(base,model,useritem):
     fig=px.line(rmse[(rmse['base']==base) & (rmse['modelo']==model) & (rmse['user']==useritem)],x="k",y="rmse")
     return fig
 
-
+# ejecutar los modelos nuevamente
 @app.callback(
-    Output("dash time", "figure"),
-    [Input("dash slider", "value"),
-     Input("base select", "value"),
-     Input("name list", "value"),
-     Input("variable", "value"),
-     Input("option select", "value")
+    Output("dashboard respuesta", "children"),
+    [Input("dashboard corrermodelo", "n_clicks"),
      ],
+    [State("dashboard testmodelo","value"),
+     State("dashboard modelmodelo","value"),
+     State("dashboard useritemmodelo","value"),
+     State("dashboard trimmodelo","value"),
+     State("dashboard kmodelo","value")]
 )
-def time_graph(year, base,terreno,var,opcion):
-    df=seleccion_base(int(base),int(opcion))
-    if int(base)==0:
-        fig = px.line(df[df['REGION']==cod_reg[terreno]].sort_values(by=['ANS']), x="ANS", y=dict_variables[var])
-    else:
-        fig = px.line(df[df['REGION']==cod_dep[terreno]].sort_values(by=['ANS']), x="ANS", y=dict_variables[var])      
-    return fig
+def time_graph(click,test, modelo,userbased,recorte,k): 
+    print(modelo)
+    print(userbased)
+    if (userbased==True) & (modelo=='cosine'):
+        base=ratings
+        col='traid'
+        nombre='cos_user'
+    if (userbased==True) & (modelo=='pearson'):
+        base=ratings
+        col='traid'
+        nombre='person_user'
+    if (userbased==False) & (modelo=='cosine'):
+        base=ratings_art
+        col='artid'
+        nombre='cos_item'
+    if (userbased==False) & (modelo=='pearson'):
+        base=ratings_art
+        col='artid'
+        nombre='person_item'     
+    crear_modelo(test, modelo, userbased, k, nombre, base,col,recorte)
+    return 'Modelo con test: '+ str(test)+' Modelo elegido: ' +str(modelo)+',¡Creado con éxito!'
 
 ########### Reconmendation #################
 
@@ -254,7 +269,8 @@ def place(value):
 #graficar la red con los valores del drop
 #valor del drodown, la idea listar usuarios
 @app.callback(
-    Output("recomend red", "figure"),
+    [Output("recomend red", "figure"),
+     Output("recomend lista","children")],
     [Input("recomend drop", "value"),
      Input("recomend seleccion", "value"),
      Input("recomend slider", "value")],
@@ -262,14 +278,16 @@ def place(value):
 def place(value,seleccion,slider):
     if seleccion == 1:
         show=base_prediccion(value,test_predictions_a_user,'traid',int(slider))
+        lista_recomend=list(show['track-name'])
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
         fig=graficar_red(edges,value)
-        return fig
+        return fig, [html.Li(x) for x in lista_recomend]
     else:
         show=base_prediccion(value,test_predictions_a_item,'userid',int(slider))
+        lista_recomend=list(show['user-name'])
         edges=[(value,itm[1][2],itm[1][1]) for itm in show.iterrows()]
         fig=graficar_red(edges,value)
-        return fig    
+        return fig ,[html.Li(x) for x in lista_recomend]   
 
 ########### Exploration #################
 #valor del drodown, la idea listar usuarios
